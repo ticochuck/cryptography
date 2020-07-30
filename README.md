@@ -1,6 +1,6 @@
 # Cryptography
 
-[Link to Latest PR]()
+[Link to Latest PR](https://github.com/ticochuck/cryptography/pull/1)
 
 ## Description
 - Devise a method to encrypt a message that can then be decrypted when supplied with the corresponding key.

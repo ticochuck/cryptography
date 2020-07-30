@@ -12,8 +12,9 @@ def encrypt(text, key):
     """
     encrypted_text = ""
     letters = string.ascii_lowercase
+    uppercase = string.ascii_uppercase
     for letter in text:
-        if letter.lower() in letters:
+        if letter.lower() in letters or letter in uppercase:
             number = ord(letter.lower()) - 96
             encrypted_number = (number + key) % 26
             encrypted_text += letters[encrypted_number-1]
@@ -23,7 +24,7 @@ def encrypt(text, key):
     return encrypted_text
 
 
-def decrypt(encripted, key):
+def decrypt(encrypted, key):
     """
     Decrypts an encrypted message using the same key used for encryptation
     """
@@ -34,6 +35,7 @@ def break_cypher(encrypted_message):
     """
     Takesin an encrypted message and transfors it into its original state
     """
+    english_dict = english_words_lower_set
     percent, highest_percent, most_likely_key = 0, 0, 0
     original_message = ""
     potential_keys = []
@@ -58,39 +60,41 @@ def break_cypher(encrypted_message):
         potential_keys.append(most_likely_key + 26*(n*2))
     
     print(textwrap.dedent(f'''
-        The received encypted message was: 
-        {encrypted}
+        The received encrypted message was: 
+        {encrypted_message}
         Using one a key of {most_likely_key}, the original message may be: 
         {original_message}
-        The following keys will generate the same result:
+        Any of the following keys will generate the same result:
         {potential_keys}
         '''))
-    return original_message
+    return original_message, highest_percent
 
 
 def was_broken():
     """
     Devise a method for the computer to determine if code was broken with minimal human guidance.
     """
-    if message == break_cypher(encrypted):
+    confidence = break_cypher(encrypted)
+    
+    if confidence[1] > 80.0:
+        print(f'The code was cracked with a {round(confidence[1],2)}% confidence level.')
         return True
     else:
+        print(f'{round(confidence[1],2)}% confidence level, tells me that the code was not cracked.')
         return False
 
 
 if __name__ == "__main__":
-    
-    english_dict = english_words_lower_set
     key = 152
-    message = "a mi me gusta andar el pelo suelto but not for long"
-    
+    #message = "hello! my name is Chuck. Was this message cracked yes or not?"
+    message = 'Hello! My name is Chuck. I am 97 years old. And you?'
     encrypted = encrypt(message, key)
     decrypted = decrypt(encrypted, key)
 
+    print('Original: ', message)
     print('Encrypted: ', encrypted)
     print('Decrypted: ', decrypted)
 
-    break_cypher(encrypted)
-    print(was_broken())
+    was_broken()
 
     
