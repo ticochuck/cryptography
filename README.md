@@ -36,7 +36,10 @@ shifts that exceed 26 should wrap around
 
 ## References
 
-[]()
+[Letters to Numbers](https://www.kite.com/python/answers/how-to-convert-letters-to-numbers-in-python)
+
+[English Words](https://pypi.org/project/english-words/)
+
 
 ## Lab18 - Cryptography
 
